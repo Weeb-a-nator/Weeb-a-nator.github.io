@@ -169,6 +169,18 @@
         font-size: 1.1rem;
         margin-top: 8px;
       }
+
+      footer {
+        max-width: 980px;
+        margin: 0 auto 24px;
+        padding: 0 24px;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      footer a {
+        color: var(--accent-dark);
+      }
     </style>
   </head>
   <body>
@@ -181,7 +193,7 @@
             Course
             <select id="courseSelect">
               <option value="">Custom course</option>
-              <option value="kalumbila">Kalumbila course</option>
+              <option value="kalumbila">Trident Country Club course</option>
             </select>
           </label>
 
@@ -226,12 +238,12 @@
         <div id="bulkEntry" class="controls">
           <label for="parsInput">
             Par for each hole
-            <textarea id="parsInput" placeholder="Example: 4 4 5 3 4 4 5 3 4 4 5 3 4 4 5 3 4 4"></textarea>
+            <textarea id="parsInput"></textarea>
           </label>
 
           <label for="scoresInput">
             Score for each hole
-            <textarea id="scoresInput" placeholder="Example: 5 4 6 3 5 4 5 4 4 7 5 4 6 4 5 3 5 4"></textarea>
+            <textarea id="scoresInput"></textarea>
           </label>
 
           <label for="holeHandicaps">
@@ -269,6 +281,10 @@
         <div id="errorMessage" class="error"></div>
       </div>
     </div>
+
+    <footer>
+      <p>Created by Weeb-a-nator | <a href="https://github.com/Weeb-a-nator/Weeb-a-nator.github.io/issues">Report a bug</a></p>
+    </footer>
 
     <script src="script.js"></script>
   </body>

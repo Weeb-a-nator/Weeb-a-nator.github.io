@@ -74,6 +74,18 @@ function updateEntryLimits() {
   });
 }
 
+function updateScorePlaceholder() {
+  const holes = Number(document.getElementById("holesSelect").value);
+  const scoreExamples = holes === 9
+    ? "5 4 6 3 5 4 5 4 4"
+    : "5 4 6 3 5 4 5 4 4 7 5 4 6 4 5 3 5 4";
+  const parExamples = holes === 9
+    ? "4 4 5 3 4 4 5 3 4"
+    : "4 4 5 3 4 4 5 3 4 4 5 3 4 4 5 3 4 4";
+  document.getElementById("parsInput").placeholder = `Example: ${parExamples}`;
+  document.getElementById("scoresInput").placeholder = `Example: ${scoreExamples}`;
+}
+
 function updateNineSelection() {
   const isNineHoleCourse = Number(document.getElementById("holesSelect").value) === 9
     && document.getElementById("courseSelect").value;
@@ -104,6 +116,9 @@ function applyNineSelection() {
     return values;
   }, {});
   setEntryValues(selectedEntries);
+  if (document.getElementById("individualInput").checked) {
+    buildHoleRows();
+  }
   updateEntryLimits();
 }
 
@@ -413,6 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCustomCourseControls();
 
   holesSelect.addEventListener("change", handleHolesChange);
+  holesSelect.addEventListener("change", updateScorePlaceholder);
 
   const nineSelect = document.getElementById("nineSelect");
   courseSelect.addEventListener("change", handleCourseChange);
@@ -428,4 +444,5 @@ document.addEventListener("DOMContentLoaded", () => {
   updateEntryMode();
   updateNineSelection();
   updateEntryLimits();
+  updateScorePlaceholder();
 });
