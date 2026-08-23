@@ -76,6 +76,10 @@
         color: var(--text);
       }
 
+      .invalid-par {
+        border-color: var(--danger) !important;
+      }
+
       textarea {
         resize: vertical;
         min-height: 80px;
@@ -124,6 +128,9 @@
 
       .actions {
         margin-top: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
       }
 
       button {
@@ -170,6 +177,10 @@
         margin-top: 8px;
       }
 
+      .result-spacer {
+        height: 12px;
+      }
+
       footer {
         max-width: 980px;
         margin: 0 auto 24px;
@@ -197,17 +208,17 @@
             </select>
           </label>
 
+          <label id="customCourseNameLabel" for="customCourseName">
+            Custom course name
+            <input id="customCourseName" type="text" placeholder="Enter a course name" />
+          </label>
+
           <label for="holesSelect">
             Number of holes
             <select id="holesSelect">
               <option value="9">9</option>
               <option value="18" selected>18</option>
             </select>
-          </label>
-
-          <label id="customCourseNameLabel" for="customCourseName">
-            Custom course name
-            <input id="customCourseName" type="text" placeholder="Enter a course name" />
           </label>
 
           <label id="nineSelectLabel" class="hidden" for="nineSelect">
@@ -229,6 +240,13 @@
             <label for="individualInput" style="margin:0;">Enter each hole individually</label>
           </div>
 
+          <div class="checkbox-wrap">
+            <input id="advancedInput" type="checkbox" />
+            <label for="advancedInput" style="margin:0;">Advanced mode</label>
+          </div>
+        </div>
+
+        <div id="advancedOptions" class="controls hidden">
           <div class="checkbox-wrap">
             <input id="capScoresInput" type="checkbox" />
             <label for="capScoresInput" style="margin:0;">Cap scores at zero-point maximum</label>
