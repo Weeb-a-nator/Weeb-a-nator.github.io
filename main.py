@@ -151,6 +151,8 @@ def get_course_data(course_name, course, holes):
 		return course
 
 	validate_course(course)
+	if course["holes"] == 9 and holes == 18:
+		holes = 9
 	if holes == 9 and course["holes"] == 18:
 		nine = ""
 		while nine not in ("first", "second"):
@@ -174,6 +176,7 @@ def main():
 	holes = read_numbers("Number of holes (9 or 18) [18]: ", 1, allowed=(9, 18), default=[18])[0]
 	course_name, selected_course = choose_course()
 	course = get_course_data(course_name, selected_course, holes)
+	holes = course["holes"]
 	pars = course["pars"]
 	hole_handicaps = course["hole_handicaps"]
 	individual_holes = read_yes_no("Enter each hole individually? (y/N): ")
