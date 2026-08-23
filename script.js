@@ -244,17 +244,30 @@ function saveCustomCourse() {
 function buildHoleRows() {
   const holeRows = document.getElementById("holeRows");
   const holes = Number(document.getElementById("holesSelect").value);
+  const pars = document.getElementById("parsInput").value.trim().split(/\s+/).filter(Boolean);
+  const scores = document.getElementById("scoresInput").value.trim().split(/\s+/).filter(Boolean);
 
   holeRows.innerHTML = "";
 
   for (let hole = 1; hole <= holes; hole += 1) {
     const row = document.createElement("tr");
+    const par = pars.length === holes ? pars[hole - 1] : 4;
+    const score = scores.length === holes ? scores[hole - 1] : 5;
     row.innerHTML = `
       <td>${hole}</td>
-      <td><input class="par-input" type="number" min="3" step="1" value="4" aria-label="Par for hole ${hole}" /></td>
-      <td><input class="score-input" type="number" min="1" step="1" value="5" aria-label="Score for hole ${hole}" /></td>
+      <td><input class="par-input" type="number" min="3" step="1" value="${par}" aria-label="Par for hole ${hole}" /></td>
+      <td><input class="score-input" type="number" min="1" step="1" value="${score}" aria-label="Score for hole ${hole}" /></td>
     `;
     holeRows.appendChild(row);
+  }
+}
+
+function syncIndividualEntries() {
+  const pars = [...document.querySelectorAll(".par-input")].map((input) => input.value);
+  const scores = [...document.querySelectorAll(".score-input")].map((input) => input.value);
+  if (pars.length && scores.length) {
+    document.getElementById("parsInput").value = pars.join(" ");
+    document.getElementById("scoresInput").value = scores.join(" ");
   }
 }
 
@@ -268,6 +281,8 @@ function updateEntryMode() {
 
   if (isIndividual) {
     buildHoleRows();
+  } else {
+    syncIndividualEntries();
   }
 }
 
@@ -324,19 +339,19 @@ function renderResults(points, scores) {
     const secondNine = scores.slice(9).reduce((sum, value) => sum + value, 0);
     const totalStrokes = scores.reduce((sum, value) => sum + value, 0);
     extraSummary = `
-      <div>First 9 strokes: ${firstNine}</div>
-      <div>Second 9 strokes: ${secondNine}</div>
-      <div>Total strokes: ${totalStrokes}</div>
+      <h2>First 9 strokes: ${firstNine}</h2>
+      <h2>Second 9 strokes: ${secondNine}</h2>
+      <h2>Total strokes: ${totalStrokes}</h2>
     `;
   } else {
     const totalStrokes = scores.reduce((sum, value) => sum + value, 0);
-    extraSummary = `<div>Total strokes: ${totalStrokes}</div>`;
+    extraSummary = `<h2>Total strokes: ${totalStrokes}</h2>`;
   }
 
   results.innerHTML = `
     <h2>Hole-by-hole points</h2>
     <div class="summary">${holeList}</div>
-    <div class="summary">Stableford total: ${total} points</div>
+    <h2>Stableford total: ${total} points</h2>
     ${extraSummary}
   `;
 
