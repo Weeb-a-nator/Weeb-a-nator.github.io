@@ -61,6 +61,12 @@
 
       a:hover { background: var(--accent-dark); }
 
+      .project-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
       footer {
         position: fixed;
         right: 0;
@@ -76,8 +82,10 @@
     <main>
       <h1>Weeb-a-nator Projects</h1>
       <p>A collection of projects by Weeb-a-nator.</p>
-      <a href="stableford-score-calculator.html">Stableford Score Calculator</a>
-      <a href="https://github.com/Weeb-a-nator">View GitHub projects</a>
+      <div class="project-links">
+        <a href="stableford-score-calculator.html">Stableford Score Calculator</a>
+        <a href="https://github.com/Weeb-a-nator">View GitHub projects</a>
+      </div>
     </main>
 
     <footer>Created by Weeb-a-nator</footer>
