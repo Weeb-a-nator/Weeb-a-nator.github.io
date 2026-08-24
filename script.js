@@ -143,7 +143,12 @@ function updateCustomCourseControls() {
 
 function updateAdvancedMode() {
   const advanced = document.getElementById("advancedInput").checked;
+  const bulkInput = document.getElementById("bulkInput");
+  if (!advanced) {
+    bulkInput.checked = false;
+  }
   document.getElementById("advancedOptions").classList.toggle("hidden", !advanced);
+  updateEntryMode();
 }
 
 function switchToCustomCourseOnEdit() {
@@ -169,10 +174,10 @@ function applyNineSelection() {
     return;
   }
 
-  if (nineHoleEntrySource && !activeNine) {
-    nineHoleEntrySource = getEntryValues();
-  } else {
+  if (nineHoleEntrySource && activeNine) {
     updateNineHoleSourceFromCurrent(activeNine);
+  } else if (!nineHoleEntrySource) {
+    nineHoleEntrySource = getEntryValues();
   }
   const source = nineHoleEntrySource || getEntryValues();
   const selectedEntries = Object.entries(source).reduce((values, [id, entries]) => {
@@ -182,7 +187,7 @@ function applyNineSelection() {
     return values;
   }, {});
   setEntryValues(selectedEntries);
-  if (document.getElementById("individualInput").checked) {
+  if (!document.getElementById("bulkInput").checked) {
     buildHoleRows();
   }
   activeNine = nine;
@@ -200,7 +205,7 @@ function getEntryValues() {
     individualHandicaps: document.getElementById("individualHandicaps").value
   };
 
-  if (document.getElementById("individualInput").checked) {
+  if (!document.getElementById("bulkInput").checked) {
     values.parsInput = [...document.querySelectorAll(".par-input")].map((input) => input.value).join(" ");
     values.scoresInput = [...document.querySelectorAll(".score-input")].map((input) => input.value).join(" ");
   }
@@ -257,7 +262,7 @@ function handleHolesChange() {
 
   updateNineSelection();
   updateEntryLimits();
-  if (document.getElementById("individualInput").checked) {
+  if (!document.getElementById("bulkInput").checked) {
     buildHoleRows();
   }
 }
@@ -335,7 +340,7 @@ function saveCustomCourse() {
 
     let pars;
     let holeHandicaps;
-    if (document.getElementById("individualInput").checked) {
+    if (!document.getElementById("bulkInput").checked) {
       pars = [...document.querySelectorAll(".par-input")].map((input) => Number(input.value));
       if (pars.length !== holes || pars.some((par) => !Number.isInteger(par))) {
         throw new Error(`Enter valid par values for all ${holes} holes.`);
@@ -396,7 +401,7 @@ function syncIndividualEntries() {
 }
 
 function updateEntryMode() {
-  const isIndividual = document.getElementById("individualInput").checked;
+  const isIndividual = !document.getElementById("bulkInput").checked;
   const bulkEntry = document.getElementById("bulkEntry");
   const individualEntry = document.getElementById("individualEntry");
 
@@ -422,7 +427,7 @@ function applyCoursePreset() {
   document.getElementById("holeHandicaps").value = preset.holeHandicaps;
   document.getElementById("individualHandicaps").value = preset.holeHandicaps;
 
-  if (document.getElementById("individualInput").checked) {
+  if (!document.getElementById("bulkInput").checked) {
     buildHoleRows();
     document.querySelectorAll(".par-input").forEach((input, index) => {
       input.value = preset.pars.split(" ")[index];
@@ -495,7 +500,7 @@ function calculateRound() {
   const holes = Number(document.getElementById("holesSelect").value);
   const courseHandicap = Number(document.getElementById("courseHandicap").value || 0);
   const errorMessage = document.getElementById("errorMessage");
-  const individual = document.getElementById("individualInput").checked;
+  const individual = !document.getElementById("bulkInput").checked;
   const advanced = document.getElementById("advancedInput").checked;
   const capScores = advanced && document.getElementById("capScoresInput").checked;
   clearParErrors();
@@ -554,7 +559,7 @@ function calculateRound() {
 document.addEventListener("DOMContentLoaded", () => {
   const holesSelect = document.getElementById("holesSelect");
   const courseSelect = document.getElementById("courseSelect");
-  const individualInput = document.getElementById("individualInput");
+  const bulkInput = document.getElementById("bulkInput");
   const calculateButton = document.getElementById("calculateButton");
   const saveCourseButton = document.getElementById("saveCourseButton");
   const advancedInput = document.getElementById("advancedInput");
@@ -568,7 +573,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nineSelect = document.getElementById("nineSelect");
   courseSelect.addEventListener("change", handleCourseChange);
   nineSelect.addEventListener("change", applyNineSelection);
-  individualInput.addEventListener("change", updateEntryMode);
+  bulkInput.addEventListener("change", updateEntryMode);
   calculateButton.addEventListener("click", calculateRound);
   saveCourseButton.addEventListener("click", saveCustomCourse);
   advancedInput.addEventListener("change", updateAdvancedMode);
