@@ -1,1 +1,1 @@
-Simple golf score calculator using the Stableford format
+Weeb-a-nator Projects Hub Repo
